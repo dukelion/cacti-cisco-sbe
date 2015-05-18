@@ -123,6 +123,7 @@ class Cisco:
 
 		# Use invoke_shell to establish an 'interactive session'
 		self.shell = self.remote_conn_pre.invoke_shell()
+		self.shell.settimeout(1.0)
 #		print "Interactive SSH session established"
 
 		# Strip the initial router prompt
