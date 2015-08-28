@@ -90,6 +90,22 @@ class Cisco:
 				calls = int(match.group(1))
 				return calls
 		return calls
+
+	def get_total_calls(self):
+		output = self.run_cmd("show sbc 1 sbe call-stats global emergence")
+		out_lines = output.splitlines()
+
+		regex = re.compile(r'\s+Category global active calls = (\d+)',re.I)
+
+		calls = 0
+		for line in out_lines:
+			if not line:
+				continue
+			match = regex.match(line)
+			if match:
+				calls = int(match.group(1))
+				return calls
+		return calls
 		
 
 	def __init__(self,hostname):
