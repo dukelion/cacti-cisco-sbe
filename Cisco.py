@@ -72,7 +72,7 @@ class Cisco:
 		if status[0:2] == 'Wa':
 			return -2
 		if status[0:2] == 'No':
-			return -1
+			return 2
 		return -1
 
 	def get_active_calls(self,trunk_name):
@@ -120,10 +120,11 @@ class Cisco:
 			print >> sys.stderr, "Unable to connect to %s@%s (%s)" % (username,hostname,e)
 			exit(-1)
 #		print "SSH connection established to %s" % ip
+		self.last_connect_time = time.time()
 
 		# Use invoke_shell to establish an 'interactive session'
 		self.shell = self.remote_conn_pre.invoke_shell()
-		self.shell.settimeout(1.0)
+		self.shell.settimeout(self.timeout)
 #		print "Interactive SSH session established"
 
 		# Strip the initial router prompt
